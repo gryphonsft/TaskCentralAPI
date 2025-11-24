@@ -25,9 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Repositories\" />
-    <Folder Include="Persistence\" />
   </ItemGroup>
 
 </Project>
