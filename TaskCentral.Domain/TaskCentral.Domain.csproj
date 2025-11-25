@@ -11,8 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
-    <Folder Include="Entities\" />
     <Folder Include="User\" />
   </ItemGroup>
 
