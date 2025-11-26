@@ -10,6 +10,7 @@ using TaskCentral.Domain.Role;
 using TaskCentral.Domain.User;
 using TaskCentral.Infrastructure.Data;
 using TaskCentral.Infrastructure.Persistence;
+using TaskCentral.Infrastructure.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,12 +60,15 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// UnitOfWork DI kaydý
+// UnitOfWork için DI kaydý
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+// Repository için DI kaydý
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
 // Service için DI kaydý
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 // Controllers ve partial update
 builder.Services.AddControllers()

@@ -15,8 +15,4 @@
     <ProjectReference Include="..\TaskCentral.Domain\TaskCentral.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\Response\" />
-  </ItemGroup>
-
 </Project>

@@ -9,7 +9,6 @@ namespace TaskCentral.Infrastructure.Repositories
     public class ProjectRepository : IProjectRepository
     {
         private readonly ApplicationDbContext _context;
-
         public ProjectRepository(ApplicationDbContext context)
         {
             _context = context;
@@ -17,7 +16,6 @@ namespace TaskCentral.Infrastructure.Repositories
         public async Task<IEnumerable<Project>> GetAllAsync() => await _context.Project.ToListAsync();
         public async Task<Project?> GetByIdAsync(int id)
         {
-
             return await _context.Project.FirstOrDefaultAsync(p => p.Id == id);
         }
         public async Task AddAsync(Project project)

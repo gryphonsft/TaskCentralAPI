@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskCentral.Application.DTOs.Request;
 using TaskCentral.Application.DTOs.Response;
 using TaskCentral.Application.Interfaces;
 using TaskCentral.Domain.Entities;
@@ -18,7 +19,6 @@ namespace TaskCentral.Application.Services
         {
             _projectRepository = projectRepository;
         }
-
         public async Task<IEnumerable<ProjectResponseDto>> GetAllProjectAsync()
         {
             var projects = await _projectRepository.GetAllAsync();
@@ -32,6 +32,17 @@ namespace TaskCentral.Application.Services
 
             }).ToList();
             return response;
+        }
+        public async Task CreateProjectAsync(ProjectCreateDto projectrequest)
+        {
+            var project = new Project
+            {
+                Title = projectrequest.Title,
+                Description = projectrequest.Description
+            };
+
+            await _projectRepository.AddAsync(project);
+            await _projectRepository.SaveChangesAsync();
         }
     }
 }
