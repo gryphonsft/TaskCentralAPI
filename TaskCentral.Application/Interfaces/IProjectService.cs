@@ -11,6 +11,7 @@ namespace TaskCentral.Application.Interfaces
     public interface IProjectService
     {
         Task<IEnumerable<ProjectResponseDto>> GetAllProjectAsync();
+        Task<ProjectResponseDto?> GetProjectByIdAsync(int id);
         Task CreateProjectAsync(ProjectCreateDto projectrequest);
     }
 }

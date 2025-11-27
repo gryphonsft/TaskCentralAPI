@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TaskCentral.Application.DTOs.Request;
 using TaskCentral.Application.DTOs.Response;
 using TaskCentral.Application.Interfaces;
 
@@ -17,7 +18,7 @@ namespace TaskCentral.Api.Controllers
             _projectService = projectService;
         }
         [HttpGet]
-        public async Task <IActionResult> GetAll(ProjectResponseDto dto)
+        public async Task<IActionResult> GetAll()
         {
             var projects = await _projectService.GetAllProjectAsync();
 
@@ -26,7 +27,18 @@ namespace TaskCentral.Api.Controllers
 
             return Ok(projects);
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var project = await _projectService.GetProjectByIdAsync(id);
 
-        
+            return Ok(project);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] ProjectCreateDto dto) 
+        {
+            await _projectService.CreateProjectAsync(dto);
+            return Ok("Proje eklendi.");
+        }
     }
 }

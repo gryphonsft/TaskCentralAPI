@@ -15,8 +15,6 @@ using TaskCentral.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true);
-
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // DbContext

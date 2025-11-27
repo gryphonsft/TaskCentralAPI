@@ -8,5 +8,6 @@ namespace TaskCentral.Application.DTOs.Request
 {
     public sealed record ProjectCreateDto(
      string Title,
-     string Description);
+     string Description,
+     DateTime DueDate);
 }

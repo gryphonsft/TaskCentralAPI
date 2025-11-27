@@ -33,12 +33,29 @@ namespace TaskCentral.Application.Services
             }).ToList();
             return response;
         }
+
+        public async Task<ProjectResponseDto?> GetProjectByIdAsync(int id)
+        {
+            var project = await _projectRepository.GetByIdAsync(id);
+
+            if (project == null)
+                return null;
+
+            return new ProjectResponseDto
+            {
+                Title = project.Title,
+                Description = project.Description,
+                CreatedAt = project.CreatedAt,
+                DueDate = project.DueDate
+            };
+        }
         public async Task CreateProjectAsync(ProjectCreateDto projectrequest)
         {
             var project = new Project
             {
                 Title = projectrequest.Title,
-                Description = projectrequest.Description
+                Description = projectrequest.Description,
+                DueDate = projectrequest.DueDate
             };
 
             await _projectRepository.AddAsync(project);
