@@ -13,5 +13,6 @@ namespace TaskCentral.Application.Interfaces
         Task<IEnumerable<ProjectResponseDto>> GetAllProjectAsync();
         Task<ProjectResponseDto?> GetProjectByIdAsync(int id);
         Task CreateProjectAsync(ProjectCreateDto projectrequest);
+        Task<IEnumerable<ProjectResponseDto>> SearchProjectAsync(string keyvalue);
     }
 }

@@ -61,5 +61,22 @@ namespace TaskCentral.Application.Services
             await _projectRepository.AddAsync(project);
             await _projectRepository.SaveChangesAsync();
         }
+        public async Task<IEnumerable<ProjectResponseDto>> SearchProjectAsync(string keyvalue)
+        {
+            if (string.IsNullOrEmpty(keyvalue) || keyvalue.Length <= 3)
+            {
+                return Enumerable.Empty<ProjectResponseDto>();
+            }
+
+            var projects = await _projectRepository.FindAsync(
+                p => p.Title.ToLower().Contains(keyvalue) ||
+                p.Description.ToLower().Contains(keyvalue));
+
+            return projects.Select(p => new ProjectResponseDto
+            { 
+            Title = p.Title,
+            Description = p.Description
+            });
+        }
     }
 }

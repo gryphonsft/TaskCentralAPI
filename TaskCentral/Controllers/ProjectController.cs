@@ -40,5 +40,11 @@ namespace TaskCentral.Api.Controllers
             await _projectService.CreateProjectAsync(dto);
             return Ok("Proje eklendi.");
         }
+        [HttpGet]
+        public async Task<IActionResult> Search(string keyvalue)
+        {
+            var result = await _projectService.SearchProjectAsync(keyvalue);
+            return Ok(result);
+        }
     }
 }
