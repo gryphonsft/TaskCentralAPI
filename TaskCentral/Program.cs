@@ -11,6 +11,7 @@ using TaskCentral.Domain.User;
 using TaskCentral.Infrastructure.Data;
 using TaskCentral.Infrastructure.Persistence;
 using TaskCentral.Infrastructure.Repositories;
+using TaskCentral.Infrastructure.Seeder;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString,
         x => x.MigrationsAssembly("TaskCentral.Infrastructure")));
 
-// Identity ayarlarý
+// Identity ayarlarï¿½
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
     options.Password.RequiredLength = 3;
@@ -58,12 +59,12 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// UnitOfWork için DI kaydý
+// UnitOfWork iï¿½in DI kaydï¿½
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-// Repository için DI kaydý
+// Repository iï¿½in DI kaydï¿½
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
-// Service için DI kaydý
+// Service iï¿½in DI kaydï¿½
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
@@ -94,5 +95,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    await RoleSeed.SeedRolesAsync(scope.ServiceProvider);
+}
 
 app.Run();

@@ -75,7 +75,9 @@ namespace TaskCentral.Application.Services
             return projects.Select(p => new ProjectResponseDto
             { 
             Title = p.Title,
-            Description = p.Description
+            Description = p.Description,
+            CreatedAt = p.CreatedAt,
+            DueDate = p.DueDate
             });
         }
     }

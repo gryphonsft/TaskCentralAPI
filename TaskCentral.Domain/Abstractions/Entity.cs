@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaskCentral.Domain.Abstractions
 {
-    internal class Entity
+    public class Entity
     {
     }
 }

@@ -44,6 +44,10 @@ namespace TaskCentral.Api.Controllers
         public async Task<IActionResult> Search(string keyvalue)
         {
             var result = await _projectService.SearchProjectAsync(keyvalue);
+
+            if (!result.Any())
+                return NoContent();
+
             return Ok(result);
         }
     }

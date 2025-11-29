@@ -24,24 +24,25 @@ namespace TaskCentral.Application.Services
             _userManager = userManager;
             _configuration = configuration;
         }
-        
+
         #region User authentication servisi
         public async Task<(bool Success, string Message, Guid? UserId, string? Token)> LoginAsync(LoginUserDto dto)
         {
             var user = await _userManager.FindByNameAsync(dto.Username);
 
             if (user == null)
-                return (false, "Böyle bir kullanıcı bulunamadı", null,null);
+                return (false, "Böyle bir kullanıcı bulunamadı", null, null);
 
             var result = await _userManager.CheckPasswordAsync(user, dto.Password);
 
             if (!result)
                 return (false, "Kullanıcı adı ya da şifre hatalı", null, null);
 
-            var token = GenerateJwtToken(user);
-            //Log Service   
+            var roles = await _userManager.GetRolesAsync(user);
 
-            return (true, "Giriş başarılı", user.Id,token);
+            var token = GenerateJwtToken(user, roles);
+
+            return (true, "Giriş başarılı", user.Id, token);
         }
 
         public async Task<(bool Success, string Message)> RegisterAsync(RegisterUserDto dto)
@@ -66,18 +67,14 @@ namespace TaskCentral.Application.Services
                 return (false, errors);
             }
 
-            //Log Service
-
             return (true, "Kullanıcı başarıyla oluşturuldu.");
         }
 
         #endregion
+
         #region Jwt oluşturma Servisi
-
-        private string GenerateJwtToken(AppUser user)
+        private string GenerateJwtToken(AppUser user, IList<string> roles)
         {
-            // Türkçe format.
-
             var keyString = _configuration["Jwt:Key"]
                 ?? throw new Exception("JWT Key missing in configuration");
 
@@ -99,6 +96,7 @@ namespace TaskCentral.Application.Services
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName ?? ""),
                 new Claim("fullname", user.FullName ?? "")
             };
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var token = new JwtSecurityToken(
                 issuer: issuer,
@@ -110,7 +108,6 @@ namespace TaskCentral.Application.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
         #endregion
     }
 }
