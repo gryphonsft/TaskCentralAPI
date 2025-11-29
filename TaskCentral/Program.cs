@@ -63,11 +63,11 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Repository i�in DI kayd�
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
-
 // Service i�in DI kayd�
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IRoleAssignService, RoleAssignService>();
 
 // Controllers ve partial update
 builder.Services.AddControllers()
