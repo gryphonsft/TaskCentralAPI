@@ -14,6 +14,7 @@ namespace TaskCentral.Infrastructure.Data
         }
         public DbSet<Project> Project { get; set; }
         public DbSet<Tasks> Tasks { get; set; }
+        public DbSet<TaskAssignment> TaskAssignment { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

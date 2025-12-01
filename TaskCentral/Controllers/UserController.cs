@@ -6,7 +6,7 @@ namespace TaskCentral.Api.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    
+    [Authorize(Roles = "Admin")]
     public class UserController : ControllerBase
     {
         private readonly IRoleAssignService _roleAssignService;
@@ -16,7 +16,7 @@ namespace TaskCentral.Api.Controllers
             _roleAssignService = roleAssignService;
         }
         [HttpGet]
-        public async Task<IList<string>> GetUserRoles(Guid userId)
+        public async Task<IList<string>> GetUserRolesById(Guid userId)
         {
             var result = await _roleAssignService.GetUserRolesAsync(userId);
 

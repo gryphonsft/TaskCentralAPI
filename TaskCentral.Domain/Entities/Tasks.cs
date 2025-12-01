@@ -12,23 +12,21 @@ namespace TaskCentral.Domain.Entities
 
         public string Description { get; set; } = string.Empty;
 
-        //Kime atanmış
-        public int AssignedTo { get; set; }
-        public AppUser AppUser { get; set; } = null!;
-
-        public TaskStatus Status { get; set; }
-        public TaskPriority Priority { get; set; }
+        //Kimlere atanmış
+        public ICollection<TaskAssignment> TaskAssignments { get; set; } = new List<TaskAssignment>();
+        public Status Status { get; set; }
+        public Priority Priority { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime DueDate { get; set; }
     }
 
-    public enum TaskStatus
+    public enum Status
     {
         Bosta,
         YapimAsamasi,
         Sonlandi
     }
-    public enum TaskPriority
+    public enum Priority
     {
         Dusuk,
         Orta,

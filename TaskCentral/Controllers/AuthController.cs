@@ -42,5 +42,11 @@ namespace TaskCentral.Api.Controllers
 
             return Ok(new { message });
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _authService.GetAllUserDetailsAsync();
+            return Ok(result);
+        }
     }
 }

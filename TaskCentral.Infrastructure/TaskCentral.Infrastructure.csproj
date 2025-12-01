@@ -24,8 +24,4 @@
     <ProjectReference Include="..\TaskCentral.Domain\TaskCentral.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>

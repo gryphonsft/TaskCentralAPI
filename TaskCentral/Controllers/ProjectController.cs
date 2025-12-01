@@ -9,7 +9,8 @@ namespace TaskCentral.Api.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Admin")] // Action bazlı da verilebilir bu Attribute.
+    
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;

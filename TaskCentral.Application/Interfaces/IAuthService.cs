@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskCentral.Application.DTOs.Request;
+using TaskCentral.Application.DTOs.Response;
 
 namespace TaskCentral.Application.Interfaces
 {
@@ -12,6 +13,7 @@ namespace TaskCentral.Application.Interfaces
         #region User authentication servisi
         Task<(bool Success, string Message, Guid? UserId, string? Token)> LoginAsync(LoginUserDto dto);
         Task<(bool Success, string Message)> RegisterAsync(RegisterUserDto dto);
+        Task<IEnumerable<UserResponseDto>> GetAllUserDetailsAsync();
         #endregion
     }
 }

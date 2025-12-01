@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -9,6 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TaskCentral.Application.DTOs.Request;
+using TaskCentral.Application.DTOs.Response;
 using TaskCentral.Application.Interfaces;
 using TaskCentral.Domain.User;
 
@@ -69,6 +71,29 @@ namespace TaskCentral.Application.Services
 
             return (true, "Kullanıcı başarıyla oluşturuldu.");
         }
+
+        // GetAllUser , GetAllUserDetail
+
+        public async Task<IEnumerable<UserResponseDto>> GetAllUserDetailsAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            var response = new List<UserResponseDto>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                response.Add(new UserResponseDto(
+                    user.UserName ?? string.Empty,
+                    user.Email ?? string.Empty,
+                    user.FullName,
+                    roles.ToList()
+                ));
+            }
+            return response;
+        }
+
 
         #endregion
 
