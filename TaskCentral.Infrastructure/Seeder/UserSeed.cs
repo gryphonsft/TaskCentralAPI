@@ -27,20 +27,20 @@ namespace TaskCentral.Infrastructure.Seeder
                 }
             }
 
-            var email = "abdullah@mail.com";
-            var user = await userManager.FindByNameAsync("abdullah");
+            var email = "aragonwashere@mail.com";
+            var user = await userManager.FindByNameAsync("user");
 
             if(user == null)
             {
                 user = new AppUser
                 {
-                    UserName = "abdullah",
-                    FullName = "Abdullah Bozdağ",
+                    UserName = "user",
+                    FullName = "Aragorn",
                     Email = email,
                     EmailConfirmed = true
                 };
 
-                await userManager.CreateAsync(user, "abdullah123*");
+                await userManager.CreateAsync(user, "user123456***");
             }
 
             if(!await userManager.IsInRoleAsync(user, "Admin"))

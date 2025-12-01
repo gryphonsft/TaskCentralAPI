@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskCentral.Domain.Entities;
+using TaskCentral.Domain.Interfaces;
 using TaskCentral.Infrastructure.Data;
 
 namespace TaskCentral.Infrastructure.Repositories
 {
-    public class TaskRepository 
+    public class TaskRepository : ITaskRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -13,7 +14,14 @@ namespace TaskCentral.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Tasks>> GetAllAsync() => await _context.Tasks.ToListAsync();
+        public async Task<IEnumerable<Tasks>> GetAllAsync()
+        {
+            return await _context.Tasks
+                .Include(t => t.Project)
+                .Include(t => t.TaskAssignments)
+                    .ThenInclude(ta => ta.AppUser)
+                    .ToListAsync();
+        }
 
         public async Task<Tasks?> GetByIdAsync(int id)
         {
@@ -22,7 +30,10 @@ namespace TaskCentral.Infrastructure.Repositories
         public async Task AddAsync(Tasks tasks)
         {
             await _context.Tasks.AddAsync(tasks);
+            await _context.SaveChangesAsync();
+
         }
+
 
     }
 }

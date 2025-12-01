@@ -2,7 +2,7 @@
 
 namespace TaskCentral.Domain.Entities
 {
-    public sealed class Tasks
+    public class Tasks
     {
         public int Id { get; set; }
 
