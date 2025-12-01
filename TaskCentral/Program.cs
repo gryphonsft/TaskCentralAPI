@@ -79,6 +79,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+//Proje başladığı zaman bu servisleri çalıştırıyor. ()
+using (var scope = app.Services.CreateScope())
+{
+    await UserSeed.SeedAsync(scope.ServiceProvider);
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -90,15 +96,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-using (var scope = app.Services.CreateScope())
-{
-    await RoleSeed.SeedRolesAsync(scope.ServiceProvider);
-}
 
 app.Run();

@@ -152,6 +152,21 @@ namespace TaskCentral.Infrastructure.Migrations
                     b.ToTable("Project");
                 });
 
+            modelBuilder.Entity("TaskCentral.Domain.Entities.TaskAssignment", b =>
+                {
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("TaskId", "AppUserId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("TaskAssignment");
+                });
+
             modelBuilder.Entity("TaskCentral.Domain.Entities.Tasks", b =>
                 {
                     b.Property<int>("Id")
@@ -159,12 +174,6 @@ namespace TaskCentral.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AssignedTo")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -186,8 +195,6 @@ namespace TaskCentral.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.HasIndex("ProjectId");
 
@@ -343,7 +350,7 @@ namespace TaskCentral.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TaskCentral.Domain.Entities.Tasks", b =>
+            modelBuilder.Entity("TaskCentral.Domain.Entities.TaskAssignment", b =>
                 {
                     b.HasOne("TaskCentral.Domain.User.AppUser", "AppUser")
                         .WithMany()
@@ -351,13 +358,24 @@ namespace TaskCentral.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TaskCentral.Domain.Entities.Tasks", "Tasks")
+                        .WithMany("TaskAssignments")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("TaskCentral.Domain.Entities.Tasks", b =>
+                {
                     b.HasOne("TaskCentral.Domain.Entities.Project", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppUser");
 
                     b.Navigation("Project");
                 });
@@ -365,6 +383,11 @@ namespace TaskCentral.Infrastructure.Migrations
             modelBuilder.Entity("TaskCentral.Domain.Entities.Project", b =>
                 {
                     b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("TaskCentral.Domain.Entities.Tasks", b =>
+                {
+                    b.Navigation("TaskAssignments");
                 });
 #pragma warning restore 612, 618
         }

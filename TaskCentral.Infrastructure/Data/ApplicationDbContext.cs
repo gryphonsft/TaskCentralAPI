@@ -18,6 +18,19 @@ namespace TaskCentral.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<TaskAssignment>()
+                .HasKey(ta => new { ta.TaskId, ta.AppUserId });
+
+            builder.Entity<TaskAssignment>()
+                .HasOne(ta => ta.Tasks)
+                .WithMany(t => t.TaskAssignments)
+                .HasForeignKey(ta => ta.TaskId);
+
+            builder.Entity<TaskAssignment>()
+                .HasOne(ta => ta.AppUser)
+                .WithMany()
+                .HasForeignKey(ta => ta.AppUserId);
         }
     }
 }
