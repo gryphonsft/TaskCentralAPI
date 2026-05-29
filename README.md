@@ -1,4 +1,4 @@
-# Task Manager API
+# Task Central API
 ### Şirket içi ekiplerin görev oluşturmasını, atamasını, takibini ve ilerleme durumlarını yönetmesini sağlayan çok kullanıcılı bir görev yönetim sistemi API'si.
 # Teknoloji ve Özellikler
 
